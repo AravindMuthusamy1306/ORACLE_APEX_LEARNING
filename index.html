@@ -1,0 +1,1491 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);font-size:15px;line-height:1.7;color:var(--color-text-primary)}
+.wrap{display:flex;min-height:600px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.sidebar{width:220px;flex-shrink:0;border-right:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);overflow-y:auto;max-height:700px}
+.sidebar-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-tertiary);padding:16px 14px 8px}
+.nav-btn{display:block;width:100%;text-align:left;padding:7px 14px;font-size:13px;background:none;border:none;cursor:pointer;color:var(--color-text-secondary);border-radius:0;transition:background .15s}
+.nav-btn:hover{background:var(--color-background-primary)}
+.nav-btn.active{background:var(--color-background-primary);color:var(--color-text-primary);font-weight:500;border-left:2px solid #534AB7}
+.content{flex:1;overflow-y:auto;max-height:700px;padding:28px 32px}
+h1{font-size:22px;font-weight:500;margin-bottom:6px}
+h2{font-size:17px;font-weight:500;margin:24px 0 8px;color:var(--color-text-primary)}
+h3{font-size:15px;font-weight:500;margin:18px 0 6px;color:var(--color-text-primary)}
+p{margin-bottom:12px;color:var(--color-text-secondary);font-size:14px}
+.tag{display:inline-block;font-size:11px;font-weight:500;padding:2px 8px;border-radius:4px;margin-right:4px;margin-bottom:4px}
+.tag-purple{background:#EEEDFE;color:#3C3489}
+.tag-teal{background:#E1F5EE;color:#0F6E56}
+.tag-coral{background:#FAECE7;color:#993C1D}
+.tag-amber{background:#FAEEDA;color:#854F0B}
+.tag-blue{background:#E6F1FB;color:#0C447C}
+.tag-red{background:#FCEBEB;color:#A32D2D}
+.tag-green{background:#EAF3DE;color:#3B6D11}
+.box{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:14px 16px;margin:12px 0;background:var(--color-background-primary)}
+.box-purple{border-left:3px solid #534AB7;background:#EEEDFE22}
+.box-teal{border-left:3px solid #1D9E75;background:#E1F5EE22}
+.box-amber{border-left:3px solid #EF9F27;background:#FAEEDA22}
+.box-red{border-left:3px solid #E24B4A;background:#FCEBEB22}
+.box-blue{border-left:3px solid #378ADD;background:#E6F1FB22}
+.box-green{border-left:3px solid #639922;background:#EAF3DE22}
+.box-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.box-label-purple{color:#534AB7}
+.box-label-teal{color:#0F6E56}
+.box-label-amber{color:#854F0B}
+.box-label-red{color:#A32D2D}
+.box-label-blue{color:#185FA5}
+.box-label-green{color:#3B6D11}
+code{font-family:var(--font-mono);font-size:12px;background:var(--color-background-secondary);padding:1px 5px;border-radius:4px;color:var(--color-text-primary)}
+pre{font-family:var(--font-mono);font-size:12px;background:var(--color-background-secondary);padding:14px;border-radius:var(--border-radius-md);overflow-x:auto;margin:10px 0;line-height:1.6;border:0.5px solid var(--color-border-tertiary)}
+.arch{font-family:var(--font-mono);font-size:12px;background:var(--color-background-secondary);padding:14px;border-radius:var(--border-radius-md);line-height:2;margin:10px 0;border:0.5px solid var(--color-border-tertiary)}
+ul,ol{padding-left:18px;margin-bottom:12px}
+li{font-size:14px;color:var(--color-text-secondary);margin-bottom:4px}
+li strong{color:var(--color-text-primary);font-weight:500}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.section-num{width:32px;height:32px;border-radius:50%;background:#EEEDFE;color:#534AB7;font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.subtitle{font-size:13px;color:var(--color-text-tertiary);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+th{text-align:left;font-weight:500;font-size:12px;color:var(--color-text-secondary);padding:6px 10px;border-bottom:0.5px solid var(--color-border-tertiary)}
+td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);vertical-align:top}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
+.ask-btn{font-size:13px;padding:7px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;color:var(--color-text-primary);margin-top:10px;transition:background .15s}
+.ask-btn:hover{background:var(--color-background-secondary)}
+</style>
+
+<div class="wrap">
+<nav class="sidebar">
+<div class="sidebar-title">Oracle APEX</div>
+<button class="nav-btn active" onclick="show(0)">1. Fundamentals</button>
+<button class="nav-btn" onclick="show(1)">2. Setup & Environment</button>
+<button class="nav-btn" onclick="show(2)">3. SQL for APEX</button>
+<button class="nav-btn" onclick="show(3)">4. First App</button>
+<button class="nav-btn" onclick="show(4)">5. Page Types</button>
+<button class="nav-btn" onclick="show(5)">6. Dynamic Actions</button>
+<button class="nav-btn" onclick="show(6)">7. PL/SQL in APEX</button>
+<button class="nav-btn" onclick="show(7)">8. Security</button>
+<button class="nav-btn" onclick="show(8)">9. API Integration</button>
+<button class="nav-btn" onclick="show(9)">10. Performance</button>
+<button class="nav-btn" onclick="show(10)">11. Debugging</button>
+<button class="nav-btn" onclick="show(11)">12. Deployment</button>
+<button class="nav-btn" onclick="show(12)">13. Advanced</button>
+<button class="nav-btn" onclick="show(13)">14. Interviews</button>
+<button class="nav-btn" onclick="show(14)">15. Tips & Tricks</button>
+<button class="nav-btn" onclick="show(15)">16. Real Project</button>
+<button class="nav-btn" onclick="show(16)">17. Day Plan</button>
+</nav>
+
+<div class="content" id="content"></div>
+</div>
+
+<script>
+const sections=[
+{
+title:"Oracle APEX Fundamentals",
+num:"01",
+subtitle:"What it is, why it exists, and how it works",
+content:`
+<h2>What is Oracle APEX?</h2>
+<p>Oracle APEX (Application Express) is a <strong>low-code web application development platform</strong> built entirely inside the Oracle Database. You build full web apps — forms, reports, dashboards, REST APIs — with minimal custom code.</p>
+<div class="box box-purple"><div class="box-label box-label-purple">Analogy</div>Think of APEX like building with LEGO blocks. The database is the floor, APEX gives you pre-built blocks (regions, buttons, reports), and you assemble them into apps instead of coding from scratch.</div>
+
+<h2>Why companies use APEX</h2>
+<div class="grid2">
+<div class="box"><strong>Speed</strong><p>Apps built 10-20x faster than Java/Node equivalents</p></div>
+<div class="box"><strong>Database-native</strong><p>Lives inside Oracle DB — no ORM, no extra layers</p></div>
+<div class="box"><strong>Security built-in</strong><p>Authentication, authorization, XSS/CSRF protection out of the box</p></div>
+<div class="box"><strong>Low TCO</strong><p>Fewer developers, less infrastructure, included with Oracle license</p></div>
+</div>
+
+<h2>Low-code vs Traditional Development</h2>
+<table>
+<tr><th>Aspect</th><th>Oracle APEX</th><th>MERN/Java EE</th></tr>
+<tr><td>Setup time</td><td>Minutes</td><td>Days/weeks</td></tr>
+<tr><td>CRUD form</td><td>30 seconds (wizard)</td><td>Hours of boilerplate</td></tr>
+<tr><td>Customization</td><td>Moderate via JS/CSS</td><td>Full</td></tr>
+<tr><td>Target</td><td>Internal/enterprise apps</td><td>Public-facing products</td></tr>
+<tr><td>Who maintains</td><td>1-2 developers</td><td>Full team</td></tr>
+</table>
+
+<div class="box box-teal"><div class="box-label box-label-teal">When to use APEX</div>Internal enterprise tools, ERP extensions, reporting dashboards, workflow automation, HR/inventory/finance systems. <strong>Not for</strong> high-traffic public e-commerce or heavily customized branded UIs.</div>
+
+<h2>Architecture — How It Works</h2>
+<div class="arch">
+Browser (HTTP Request)
+    ↓
+ORDS (Oracle REST Data Services) — the web server layer
+    ↓
+Oracle Database Engine
+    ↓
+APEX Engine (runs as DB stored procedures)
+    ↓
+Generates HTML/CSS/JS Response
+    ↑
+Browser renders the page
+</div>
+<p>APEX is <strong>not a separate server</strong>. The entire app logic lives inside Oracle DB as PL/SQL packages. ORDS is just the HTTP adapter that connects your browser to those packages.</p>
+
+<h2>Key Vocabulary</h2>
+<table>
+<tr><th>Term</th><th>Real-world analogy</th><th>What it means</th></tr>
+<tr><td><code>Workspace</code></td><td>Office building</td><td>Isolated container for apps, users, and DB schemas</td></tr>
+<tr><td><code>Application</code></td><td>Floor in the building</td><td>A collection of pages that form one app</td></tr>
+<tr><td><code>Page</code></td><td>Room in the floor</td><td>Single URL/screen in your app</td></tr>
+<tr><td><code>Region</code></td><td>Furniture in the room</td><td>A visual block on a page (report, form, chart)</td></tr>
+<tr><td><code>Session State</code></td><td>Sticky notes on a desk</td><td>In-memory key-value store for page/app items</td></tr>
+<tr><td><code>Parsing Schema</code></td><td>Database user</td><td>The DB user whose context APEX runs SQL in</td></tr>
+<tr><td><code>Shared Components</code></td><td>Company templates</td><td>Reusable LOVs, themes, auth schemes, app-level items</td></tr>
+</table>
+
+<h2>Authentication vs Authorization</h2>
+<div class="grid2">
+<div class="box box-blue"><div class="box-label box-label-blue">Authentication</div>WHO are you? — Login page, LDAP, SSO, Oracle DB auth. Verifies identity.</div>
+<div class="box box-purple"><div class="box-label box-label-purple">Authorization</div>WHAT can you do? — Role-based page access, button visibility, data row restrictions.</div>
+</div>
+
+<div class="box box-amber"><div class="box-label box-label-amber">Beginner Mistake</div>Confusing session state with a database. Session state is RAM-like — it resets on logout. Never use it as permanent storage.</div>
+
+<div class="box box-green"><div class="box-label box-label-green">Interview Insight</div>"Explain how a page request flows in APEX" — answer: Browser → ORDS → DB → APEX engine processes page metadata → renders HTML → sends back. This alone impresses interviewers.</div>
+`
+},
+{
+title:"Setup & Environment",
+num:"02",
+subtitle:"Cloud, local, ORDS, SQL Workshop",
+content:`
+<h2>Three Ways to Get APEX</h2>
+<div class="grid3">
+<div class="box box-teal"><div class="box-label box-label-teal">Oracle Cloud (Free)</div>apex.oracle.com or Oracle Always Free — best for learning. Zero setup, instant workspace.</div>
+<div class="box box-blue"><div class="box-label box-label-blue">Local Install</div>Oracle XE + APEX + ORDS on your machine. Full control, works offline.</div>
+<div class="box box-purple"><div class="box-label box-label-purple">Enterprise On-Prem</div>Oracle DB 19c+ + ORDS on app server. How most companies run it.</div>
+</div>
+
+<h2>Fastest Start: apex.oracle.com</h2>
+<ol>
+<li>Go to <code>apex.oracle.com</code> → Request a free workspace</li>
+<li>Pick workspace name, schema name, email</li>
+<li>Login → you're inside APEX in 5 minutes</li>
+</ol>
+
+<h2>ORDS — What It Actually Does</h2>
+<p>ORDS (Oracle REST Data Services) is a Java middleware that listens on port 8080/443, receives HTTP requests from your browser, connects to Oracle DB, and invokes APEX. Think of it as the "Tomcat for APEX".</p>
+<div class="arch">
+Browser → ORDS (port 443) → JDBC Connection Pool → Oracle DB → APEX Engine
+         [HTTP/HTTPS]     [Java process]           [SQL*Net]
+</div>
+
+<h2>The 4 Main Tools in APEX</h2>
+<table>
+<tr><th>Tool</th><th>What it is</th><th>When you use it</th></tr>
+<tr><td><strong>App Builder</strong></td><td>Main IDE for creating/editing apps</td><td>Always — this is your primary workspace</td></tr>
+<tr><td><strong>SQL Workshop</strong></td><td>Browser-based SQL editor + DB tools</td><td>Creating tables, running queries, importing data</td></tr>
+<tr><td><strong>Object Browser</strong></td><td>Visual DB schema explorer</td><td>Viewing tables, columns, constraints</td></tr>
+<tr><td><strong>Team Development</strong></td><td>Bugs, features, milestones tracking</td><td>Team project management inside APEX</td></tr>
+</table>
+
+<h2>Professional Project Organization</h2>
+<div class="box box-purple"><div class="box-label box-label-purple">Naming Conventions (Enterprise Standard)</div>
+<ul>
+<li>Tables: <code>EMP_MASTER</code>, <code>DEPT_INFO</code> (noun, uppercase, underscore)</li>
+<li>Sequences: <code>SEQ_EMP_ID</code></li>
+<li>Procedures: <code>PKG_EMP.CREATE_EMPLOYEE</code></li>
+<li>APEX Pages: numbered by module — HR: 100-199, Finance: 200-299</li>
+<li>Items: <code>P1_EMP_ID</code>, <code>P1_EMP_NAME</code> (page number prefix)</li>
+<li>Regions: descriptive names — "Employee Search", "Salary Details"</li>
+</ul>
+</div>
+
+<div class="box box-amber"><div class="box-label box-label-amber">Senior Developer Note</div>Always use a dedicated parsing schema per application. Never build on <code>SYS</code> or <code>SYSTEM</code>. In enterprise setups, the schema owns the tables and a separate app schema is granted access.</div>
+
+<h2>SQL Workshop Essentials</h2>
+<ul>
+<li><strong>SQL Commands</strong>: Run ad-hoc SQL, DDL, DML</li>
+<li><strong>SQL Scripts</strong>: Save and run .sql files — use for table creation, seed data</li>
+<li><strong>Query Builder</strong>: Visual drag-and-drop query tool (useful for beginners)</li>
+<li><strong>Data Workshop</strong>: Import CSV/XLS data into tables instantly</li>
+<li><strong>RESTful Services</strong>: Expose DB data as REST endpoints</li>
+</ul>
+`
+},
+{
+title:"SQL + Database for APEX",
+num:"03",
+subtitle:"The exact SQL knowledge an APEX developer must have",
+content:`
+<h2>Why SQL Mastery is Non-Negotiable in APEX</h2>
+<p>In MERN, your DB queries are abstracted by Mongoose/Sequelize. In APEX, <strong>SQL is everywhere</strong> — your reports, LOVs, page processes, validations, and dynamic queries are all SQL/PL/SQL. You can't hide from it.</p>
+
+<h2>Must-Know DDL for APEX</h2>
+<pre>-- Standard APEX table pattern
+CREATE TABLE employees (
+  emp_id     NUMBER        GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  first_name VARCHAR2(100) NOT NULL,
+  last_name  VARCHAR2(100) NOT NULL,
+  dept_id    NUMBER        REFERENCES departments(dept_id),
+  salary     NUMBER(10,2),
+  hire_date  DATE          DEFAULT SYSDATE,
+  status     VARCHAR2(10)  DEFAULT 'ACTIVE' 
+               CHECK (status IN ('ACTIVE','INACTIVE'))
+);</pre>
+
+<div class="box box-purple"><div class="box-label box-label-purple">APEX Auto-Magic</div>Use <code>GENERATED ALWAYS AS IDENTITY</code> (Oracle 12c+) instead of sequences — APEX form wizards detect this and auto-handle inserts. Older projects still use sequences + triggers.</div>
+
+<h2>Essential Joins for Reports</h2>
+<pre>-- Most APEX reports use joins like this:
+SELECT e.emp_id, e.first_name || ' ' || e.last_name AS full_name,
+       d.dept_name, j.job_title, e.salary
+FROM   employees e
+JOIN   departments d ON e.dept_id = d.dept_id
+JOIN   jobs        j ON e.job_id  = j.job_id
+WHERE  e.status = 'ACTIVE'
+ORDER  BY e.last_name;</pre>
+
+<h2>Views — Your APEX Report Friend</h2>
+<pre>-- Create a view, then point APEX report at it
+CREATE OR REPLACE VIEW v_emp_details AS
+SELECT e.emp_id, e.first_name, e.last_name,
+       d.dept_name, m.first_name || ' ' || m.last_name AS manager_name,
+       e.salary, e.hire_date
+FROM   employees e
+LEFT JOIN departments d ON e.dept_id = d.dept_id
+LEFT JOIN employees   m ON e.manager_id = m.emp_id;</pre>
+
+<div class="box box-teal"><div class="box-label box-label-teal">Best Practice</div>Always build APEX reports on VIEWS, not raw table JOINs in the report query. When columns change, you update the view — not 20 report queries scattered across your app.</div>
+
+<h2>Sequences (Legacy Pattern)</h2>
+<pre>CREATE SEQUENCE seq_emp_id START WITH 1 INCREMENT BY 1 NOCACHE;
+-- Used in trigger:
+CREATE OR REPLACE TRIGGER trg_emp_bi
+BEFORE INSERT ON employees
+FOR EACH ROW
+BEGIN
+  IF :NEW.emp_id IS NULL THEN
+    :NEW.emp_id := seq_emp_id.NEXTVAL;
+  END IF;
+END;</pre>
+
+<h2>SQL Patterns APEX Developers Use Daily</h2>
+<table>
+<tr><th>Pattern</th><th>Where in APEX</th><th>Example</th></tr>
+<tr><td>Parameterized queries</td><td>Reports, LOVs</td><td><code>WHERE dept_id = :P1_DEPT_ID</code></td></tr>
+<tr><td>DECODE / CASE</td><td>Status labels in reports</td><td><code>CASE status WHEN 'A' THEN 'Active' END</code></td></tr>
+<tr><td>TO_CHAR(date)</td><td>Date display</td><td><code>TO_CHAR(hire_date,'DD-Mon-YYYY')</code></td></tr>
+<tr><td>NVL / COALESCE</td><td>Null handling</td><td><code>NVL(manager_id, 0)</code></td></tr>
+<tr><td>LISTAGG</td><td>Aggregated display</td><td><code>LISTAGG(skill,', ') WITHIN GROUP (ORDER BY skill)</code></td></tr>
+<tr><td>Bind variables</td><td>Everywhere — security</td><td><code>:APP_USER, :APP_ID, :SESSION</code></td></tr>
+</table>
+
+<h2>Built-in APEX Bind Variables</h2>
+<div class="grid2">
+<div class="box"><code>:APP_USER</code><p>Current logged-in username</p></div>
+<div class="box"><code>:APP_ID</code><p>Current application ID</p></div>
+<div class="box"><code>:APP_PAGE_ID</code><p>Current page number</p></div>
+<div class="box"><code>:SESSION</code><p>Current session ID</p></div>
+</div>
+
+<div class="box box-red"><div class="box-label box-label-red">Security Warning</div>NEVER concatenate user input into SQL strings. ALWAYS use bind variables (<code>:P1_SEARCH</code>) in APEX. APEX handles parameterization automatically when you use bind syntax.</div>
+`
+},
+{
+title:"Building Your First App",
+num:"04",
+subtitle:"Login → Dashboard → Employee CRUD, step by step",
+content:`
+<h2>The Complete App Structure We're Building</h2>
+<div class="arch">
+Page 1  — Login (built-in)
+Page 2  — Dashboard (charts + KPIs)
+Page 3  — Employee List (Interactive Report)
+Page 4  — Employee Form (Add/Edit)
+Page 5  — Department Management (CRUD)
+Page 9999 — Global Page (nav bar lives here)
+</div>
+
+<h2>Step 1: Create Application</h2>
+<ol>
+<li>App Builder → Create → New Application</li>
+<li>Name: "Employee Manager" | Theme: Universal Theme</li>
+<li>Add features: Check "Install Progressive Web App" + "About Page"</li>
+<li>Authentication: Application Express (built-in) for now</li>
+<li>Create Application → APEX generates skeleton pages automatically</li>
+</ol>
+
+<div class="box box-purple"><div class="box-label box-label-purple">What just happened?</div>APEX created: a login page, home page, navigation menu, theme settings, and app metadata — all stored as rows in APEX's own internal tables inside Oracle DB. There's no "project folder" — it's all in the database.</div>
+
+<h2>Step 2: Create the Database Tables (SQL Workshop)</h2>
+<pre>-- Run this in SQL Workshop → SQL Commands
+CREATE TABLE departments (
+  dept_id   NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  dept_name VARCHAR2(100) NOT NULL UNIQUE
+);
+CREATE TABLE employees (
+  emp_id     NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  first_name VARCHAR2(100) NOT NULL,
+  last_name  VARCHAR2(100) NOT NULL,
+  email      VARCHAR2(200) UNIQUE,
+  dept_id    NUMBER REFERENCES departments(dept_id),
+  salary     NUMBER(10,2),
+  hire_date  DATE DEFAULT SYSDATE,
+  status     VARCHAR2(10) DEFAULT 'ACTIVE'
+);
+INSERT INTO departments(dept_name) VALUES('Engineering');
+INSERT INTO departments(dept_name) VALUES('HR');
+INSERT INTO departments(dept_name) VALUES('Finance');
+COMMIT;</pre>
+
+<h2>Step 3: Create Employee List Page (Interactive Report)</h2>
+<ol>
+<li>App Builder → your app → Create Page → Report → Interactive Report</li>
+<li>Name: "Employees" | Page Number: 3</li>
+<li>SQL Query: <code>SELECT * FROM v_emp_details</code></li>
+<li>Set "Link Column" to page 4 (edit form) — APEX creates edit link automatically</li>
+<li>Save & Run</li>
+</ol>
+
+<h2>Step 4: Create Employee Form (CRUD)</h2>
+<ol>
+<li>Create Page → Form → Form on Table</li>
+<li>Table: EMPLOYEES | Page Number: 4</li>
+<li>Primary Key: EMP_ID (auto-detected)</li>
+<li>APEX generates: all form items, Save process, Delete process, validations</li>
+<li>Link the IR page 3 to this form via row link</li>
+</ol>
+
+<div class="box box-teal"><div class="box-label box-label-teal">APEX Magic</div>One wizard click creates: item for every column, an "Automatic Row Fetch" process (pulls record on load), a "Process Row of EMPLOYEES" process (INSERT/UPDATE/DELETE based on button clicked), and validation. This is 2+ hours of MERN code done in 30 seconds.</div>
+
+<h2>Step 5: Add a Select List for Department</h2>
+<ol>
+<li>On form page → click P4_DEPT_ID item → change Type to "Select List"</li>
+<li>List of Values → SQL Query:<br>
+<code>SELECT dept_name d, dept_id r FROM departments ORDER BY dept_name</code></li>
+<li>Display Extra Values: Yes | Null Display Value: "— Select Department —"</li>
+</ol>
+
+<h2>Step 6: Build the Dashboard</h2>
+<ol>
+<li>Edit page 2 (Home) → Add Region → Chart</li>
+<li>Chart Type: Bar | Title: "Employees by Department"</li>
+<li>SQL: <code>SELECT dept_name AS label, COUNT(*) AS value FROM v_emp_details GROUP BY dept_name</code></li>
+<li>Add another region → Classic Report → Metric Cards for KPIs</li>
+</ol>
+
+<h2>Key Form Properties You Must Understand</h2>
+<table>
+<tr><th>Property</th><th>What it does</th></tr>
+<tr><td>Source Type: Column</td><td>Maps item to a DB column (auto fetch/save)</td></tr>
+<tr><td>Default Type: PL/SQL Expression</td><td>Sets item default from code (e.g., SYSDATE)</td></tr>
+<tr><td>Required: Yes</td><td>Adds server-side NOT NULL validation automatically</td></tr>
+<tr><td>Format Mask</td><td>Formats dates/numbers (e.g., DD-MON-YYYY)</td></tr>
+<tr><td>Read Only Condition</td><td>Makes field read-only for certain roles/conditions</td></tr>
+</table>
+`
+},
+{
+title:"Page Types & Components",
+num:"05",
+subtitle:"When to use each component and how to use it well",
+content:`
+<h2>The Component Decision Tree</h2>
+<div class="arch">
+Need to SHOW data?
+├── Editable in-grid?      → Interactive Grid
+├── Filters + facets?      → Faceted Search
+├── End-user columns?      → Interactive Report
+├── Fixed layout/print?    → Classic Report
+└── Visual tiles?          → Cards Region
+
+Need to ENTER data?
+├── Single record?         → Form page (table-based)
+└── Multi-record?          → Interactive Grid (edit mode)
+
+Need VISUALS?
+├── Trends/comparisons?    → Chart (bar/line/pie)
+└── Summary metrics?       → Cards or Custom Region
+</div>
+
+<h2>Interactive Report (IR)</h2>
+<div class="box box-purple"><div class="box-label box-label-purple">What it is</div>A smart table with built-in filtering, sorting, grouping, pivot, highlight, download (CSV/Excel/PDF), and saved views — all without you writing a single line of JS.</div>
+<ul>
+<li><strong>When to use</strong>: Any "list of records" that users need to search/filter/export</li>
+<li><strong>When NOT to use</strong>: When you need precise column widths for print reports → use Classic Report</li>
+<li><strong>Performance tip</strong>: Always add <code>WHERE</code> conditions. Never <code>SELECT *</code> from large tables without a filter row</li>
+<li><strong>Interview tip</strong>: IR saves user preferences in <code>APEX_IR_SAVED_REPORTS</code> table — each user gets their own view</li>
+</ul>
+
+<h2>Interactive Grid (IG)</h2>
+<div class="box box-blue"><div class="box-label box-label-blue">What it is</div>Like a spreadsheet embedded in your page. Users can edit, add, delete rows inline. APEX handles the DML automatically.</div>
+<ul>
+<li><strong>Use for</strong>: Bulk data entry, inline editing (expense lines, order items, scheduling)</li>
+<li><strong>Don't use for</strong>: Simple display-only data — IR is lighter and faster</li>
+<li><strong>Common mistake</strong>: Not setting "Allowed Operations" — always explicitly allow/deny Insert/Update/Delete</li>
+</ul>
+
+<h2>Classic Report</h2>
+<ul>
+<li>Fixed HTML table output — no user customization</li>
+<li>Use when: printing invoices, fixed-format regulatory reports, PDFs</li>
+<li>Performance: fastest report — no JavaScript, pure SQL → HTML</li>
+</ul>
+
+<h2>Cards Region</h2>
+<pre>-- SQL for a cards region showing employees
+SELECT emp_id,
+       first_name || ' ' || last_name AS title,
+       dept_name                      AS subtitle,
+       salary                         AS badge_value,
+       'PERSON'                       AS icon_name
+FROM v_emp_details
+WHERE status = 'ACTIVE'</pre>
+<p>Cards use specific column aliases — <code>title</code>, <code>subtitle</code>, <code>badge_value</code>, <code>icon_name</code>. APEX maps these automatically.</p>
+
+<h2>Faceted Search</h2>
+<div class="box box-teal"><div class="box-label box-label-teal">What it is</div>Like Amazon product filters — checkboxes on the left that dynamically filter your report. Zero JS required. APEX generates all AJAX filter logic automatically.</div>
+<p>Add a Faceted Search region → it auto-discovers columns from your report → each column becomes a filter widget. Checkbox, range slider, date range — all configurable.</p>
+
+<h2>Charts</h2>
+<table>
+<tr><th>Chart Type</th><th>Use for</th></tr>
+<tr><td>Bar/Column</td><td>Comparing categories (sales by region, headcount by dept)</td></tr>
+<tr><td>Line</td><td>Trends over time (monthly revenue, weekly signups)</td></tr>
+<tr><td>Pie/Donut</td><td>Part-of-whole (market share, status distribution) — max 5-6 slices</td></tr>
+<tr><td>Scatter</td><td>Correlation (salary vs experience)</td></tr>
+<tr><td>Gauge</td><td>KPI vs target (progress toward goal)</td></tr>
+</table>
+
+<h2>Calendar Region</h2>
+<pre>-- Calendar needs: date col, title col, optional end date
+SELECT task_id, task_name AS title, due_date AS start_date,
+       assigned_to AS css_class
+FROM tasks
+WHERE status != 'COMPLETE'</pre>
+
+<div class="box box-amber"><div class="box-label box-label-amber">Dashboard Design Pattern</div>Page 2 → Add multiple regions side by side: 4 metric cards (top row) + 1 bar chart (left) + 1 pie chart (right) + 1 IR (bottom). Each region has its own SQL query. No JS needed — this is a complete executive dashboard in under an hour.</div>
+`
+},
+{
+title:"Dynamic Actions",
+num:"06",
+subtitle:"Real-time interactivity without JavaScript expertise",
+content:`
+<h2>What are Dynamic Actions?</h2>
+<p>Dynamic Actions (DAs) are APEX's event-driven engine. They let you react to user interactions (clicks, changes, page loads) and run actions (show/hide, execute JS, refresh, submit) — all configured through a UI, not hand-coded.</p>
+
+<div class="box box-purple"><div class="box-label box-label-purple">Analogy</div>Dynamic Actions are like event listeners in JavaScript. "When X happens → do Y" — but you configure them in a form instead of writing <code>document.addEventListener()</code>.</div>
+
+<h2>DA Structure: Event → Condition → Action</h2>
+<div class="arch">
+WHEN:     [Event]      on [Element]    (e.g., Change on P3_DEPT_ID)
+  IF:     [Condition]  optional filter (e.g., item is not null)
+    THEN: [True Action]               (e.g., Refresh P3_EMP_LIST)
+    ELSE: [False Action]              (e.g., Clear P3_EMP_LIST)
+</div>
+
+<h2>Most-Used Dynamic Actions</h2>
+<table>
+<tr><th>Action</th><th>Real use case</th></tr>
+<tr><td>Show / Hide</td><td>Show "End Date" field only when "Has End Date" checkbox is checked</td></tr>
+<tr><td>Enable / Disable</td><td>Disable salary field unless user has "HR_MANAGER" role</td></tr>
+<tr><td>Set Value</td><td>Auto-populate city when user selects zip code from LOV</td></tr>
+<tr><td>Refresh</td><td>Reload report/chart after user changes a filter</td></tr>
+<tr><td>Execute JavaScript</td><td>Custom validations, third-party library calls, animations</td></tr>
+<tr><td>Execute PL/SQL</td><td>Run server-side code without full page submit (AJAX)</td></tr>
+<tr><td>Submit Page</td><td>Trigger page submission on Enter key or item change</td></tr>
+</table>
+
+<h2>Cascading LOV (Most Common DA Pattern)</h2>
+<p>Scenario: When department changes, reload employee select list to show only that dept's employees.</p>
+<ol>
+<li>Create DA on <code>P3_DEPT_ID</code> → Event: Change</li>
+<li>Action: Refresh → Region/Item: <code>P3_EMP_ID</code></li>
+<li>In <code>P3_EMP_ID</code>'s LOV SQL: <code>SELECT name d, id r FROM employees WHERE dept_id = :P3_DEPT_ID</code></li>
+<li>In <code>P3_EMP_ID</code> → Cascading LOV Parent Item: <code>P3_DEPT_ID</code></li>
+</ol>
+<div class="box box-teal"><div class="box-label box-label-teal">What's happening</div>When dept changes, APEX fires an AJAX call with P3_DEPT_ID's value, re-executes the LOV SQL with the new bind value, returns JSON, and re-populates the select list. All automatic.</div>
+
+<h2>Execute PL/SQL via DA (Server-side AJAX)</h2>
+<pre>-- DA Action: Execute PL/SQL
+-- Items to Submit: P4_EMP_ID
+-- Items to Return: P4_SALARY, P4_DEPT_NAME
+DECLARE
+  v_sal NUMBER;
+  v_dept VARCHAR2(100);
+BEGIN
+  SELECT e.salary, d.dept_name
+  INTO   v_sal, v_dept
+  FROM   employees e JOIN departments d 
+         ON e.dept_id = d.dept_id
+  WHERE  e.emp_id = :P4_EMP_ID;
+  
+  :P4_SALARY    := v_sal;
+  :P4_DEPT_NAME := v_dept;
+END;</pre>
+
+<h2>Show/Hide Pattern</h2>
+<ol>
+<li>DA → Event: Change → Item: P5_EMPLOYMENT_TYPE</li>
+<li>Condition: Value = 'CONTRACT'</li>
+<li>True Action: Show → Item: P5_CONTRACT_END_DATE</li>
+<li>False Action: Hide → Item: P5_CONTRACT_END_DATE</li>
+<li>Add another True Action: Set Required → P5_CONTRACT_END_DATE → Yes</li>
+</ol>
+
+<div class="box box-amber"><div class="box-label box-label-amber">Debugging DAs</div>Open browser console → watch for APEX AJAX calls. Each DA with Execute PL/SQL shows up as a POST to <code>wwv_flow.accept</code>. If it fails, the error JSON is in the response. Also use APEX Debug mode (URL parameter <code>&p_debug=YES</code>).</div>
+
+<div class="box box-red"><div class="box-label box-label-red">Beginner Mistake</div>Putting business logic inside JavaScript DAs. Always prefer PL/SQL for data operations — JS should only handle UI effects. Keep business logic server-side and testable.</div>
+`
+},
+{
+title:"PL/SQL in APEX",
+num:"07",
+subtitle:"Where PL/SQL lives in APEX and how to write it well",
+content:`
+<h2>Where PL/SQL Appears in APEX</h2>
+<div class="arch">
+Page Processing
+├── Computations    → Set item values before page renders
+├── Validations     → Check data before save
+├── Processes       → Execute DML/business logic on submit
+└── Branches        → Navigate to different page after process
+
+Page Rendering
+├── Before Header   → Run code before page displays
+└── After Header    → Run after header, before body
+
+Dynamic Actions
+└── Execute PL/SQL  → Server-side AJAX (no page reload)
+
+Application
+├── Application Processes → Run on every page (e.g., log access)
+└── Application Computations → Set app-level items
+</div>
+
+<h2>Page Process — The Most Important Concept</h2>
+<p>A Page Process runs when the user submits the page. It's where your INSERT/UPDATE/DELETE logic lives — either auto-generated by APEX wizard or custom PL/SQL.</p>
+<pre>-- Custom Process: "Promote Employee"
+-- Process Point: Processing → After Submit
+DECLARE
+  v_emp_id NUMBER := :P10_EMP_ID;
+BEGIN
+  -- Validate
+  IF :P10_NEW_SALARY < :P10_CURRENT_SALARY THEN
+    RAISE_APPLICATION_ERROR(-20001, 'New salary cannot be less than current');
+  END IF;
+  
+  -- Update
+  UPDATE employees
+  SET    salary      = :P10_NEW_SALARY,
+         job_id      = :P10_NEW_JOB_ID,
+         modified_by = :APP_USER,
+         modified_dt = SYSDATE
+  WHERE  emp_id = v_emp_id;
+  
+  -- Audit log
+  INSERT INTO emp_audit_log(emp_id, action, old_salary, new_salary, done_by, done_dt)
+  VALUES(v_emp_id, 'PROMOTION', :P10_CURRENT_SALARY, :P10_NEW_SALARY, :APP_USER, SYSDATE);
+  
+  COMMIT;
+  
+  -- Set success message (shows as green toast)
+  :P10_SUCCESS_MSG := 'Employee promoted successfully!';
+  APEX_APPLICATION.G_PRINT_SUCCESS_MESSAGE := 'Promotion saved.';
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE; -- APEX catches this and shows error to user
+END;</pre>
+
+<h2>Validations</h2>
+<pre>-- Validation Type: PL/SQL Function (returning error text)
+-- Fires BEFORE the process runs
+DECLARE
+  v_count NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO v_count
+  FROM   employees
+  WHERE  email = :P4_EMAIL
+  AND    emp_id != NVL(:P4_EMP_ID, -1);
+  
+  IF v_count > 0 THEN
+    RETURN 'This email address is already in use.';
+  END IF;
+  RETURN NULL; -- NULL = valid
+END;</pre>
+
+<h2>Computations</h2>
+<pre>-- Computation: Set P4_FULL_NAME before page renders
+-- Type: PL/SQL Expression
+:P4_FIRST_NAME || ' ' || :P4_LAST_NAME
+
+-- Computation: Set P4_FISCAL_YEAR  
+-- Type: SQL Query (returning single value)
+SELECT TO_CHAR(SYSDATE, 'YYYY') || '-' || 
+       TO_CHAR(ADD_MONTHS(SYSDATE,12), 'YYYY') FROM DUAL</pre>
+
+<h2>Using Packages (Enterprise Pattern)</h2>
+<div class="box box-purple"><div class="box-label box-label-purple">Production-Level Pattern</div>Never write business logic directly in page processes. Wrap everything in DB packages. APEX page process calls the package → package does the work. This makes logic testable, reusable, and version-controllable.</div>
+<pre>-- In Database (package body):
+CREATE OR REPLACE PACKAGE BODY pkg_employee AS
+  PROCEDURE create_employee(p_fname VARCHAR2, p_lname VARCHAR2, 
+                              p_dept NUMBER, p_salary NUMBER,
+                              p_emp_id OUT NUMBER) IS
+  BEGIN
+    INSERT INTO employees(first_name,last_name,dept_id,salary)
+    VALUES(p_fname, p_lname, p_dept, p_salary)
+    RETURNING emp_id INTO p_emp_id;
+    COMMIT;
+  END;
+END;
+
+-- In APEX Page Process (thin wrapper):
+DECLARE v_id NUMBER; BEGIN
+  pkg_employee.create_employee(
+    :P4_FIRST_NAME, :P4_LAST_NAME, :P4_DEPT_ID, :P4_SALARY, v_id);
+  :P4_EMP_ID := v_id;
+END;</pre>
+
+<h2>Exception Handling in APEX</h2>
+<pre>EXCEPTION
+  WHEN DUP_VAL_ON_INDEX THEN
+    -- APEX shows this as an inline error on the page
+    APEX_ERROR.ADD_ERROR(
+      p_message          => 'Duplicate entry found.',
+      p_display_location => apex_error.c_inline_in_notification);
+  WHEN OTHERS THEN
+    -- Log to your error table
+    INSERT INTO error_log(err_msg, err_stack, page_id, app_user, err_dt)
+    VALUES(SQLERRM, DBMS_UTILITY.FORMAT_ERROR_BACKTRACE, 
+           :APP_PAGE_ID, :APP_USER, SYSTIMESTAMP);
+    COMMIT;
+    RAISE;</pre>
+`
+},
+{
+title:"Security",
+num:"08",
+subtitle:"Authentication, authorization, and secure coding",
+content:`
+<h2>Security Model Overview</h2>
+<div class="arch">
+Request arrives
+    ↓
+Authentication: Is user logged in? (session check)
+    ↓
+Authorization: Can this user access this page/component?
+    ↓
+Session State Protection: Are URL parameters tampered?
+    ↓
+Input Validation: SQL injection? XSS?
+    ↓
+Page renders (or error/redirect)
+</div>
+
+<h2>Authentication Schemes</h2>
+<table>
+<tr><th>Scheme</th><th>Use case</th><th>Enterprise use</th></tr>
+<tr><td>Application Express</td><td>APEX-managed users</td><td>Dev/demo only</td></tr>
+<tr><td>Database Accounts</td><td>Oracle DB users login</td><td>Internal tools</td></tr>
+<tr><td>LDAP</td><td>Active Directory / corporate login</td><td>Very common</td></tr>
+<tr><td>SAML / Social</td><td>SSO, Google, Azure AD</td><td>Modern enterprise</td></tr>
+<tr><td>Custom PL/SQL</td><td>Your own user table</td><td>Full control</td></tr>
+</table>
+
+<h2>Custom Authentication Pattern</h2>
+<pre>-- Authentication Function (returns TRUE = login success)
+FUNCTION authenticate_user(p_username VARCHAR2, p_password VARCHAR2) 
+RETURN BOOLEAN IS
+  v_count NUMBER;
+  v_hash  VARCHAR2(200);
+BEGIN
+  v_hash := DBMS_CRYPTO.HASH(
+    UTL_RAW.CAST_TO_RAW(p_password || p_username), -- salt with username
+    DBMS_CRYPTO.HASH_SH256);
+  
+  SELECT COUNT(*) INTO v_count
+  FROM   app_users
+  WHERE  UPPER(username) = UPPER(p_username)
+  AND    password_hash   = v_hash
+  AND    account_locked  = 'N'
+  AND    (account_expires IS NULL OR account_expires > SYSDATE);
+  
+  RETURN v_count > 0;
+END;</pre>
+
+<h2>Authorization Schemes</h2>
+<pre>-- Authorization Scheme: "Is HR Manager"
+-- Type: PL/SQL Function returning Boolean
+DECLARE
+  v_count NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO v_count
+  FROM   user_roles
+  WHERE  username = :APP_USER
+  AND    role_code = 'HR_MANAGER';
+  RETURN v_count > 0;
+END;</pre>
+<p>Apply authorization to: Pages (entire page restricted), Regions (hide a region), Buttons (hide save button), Items (hide sensitive fields), Menu entries (hide nav links).</p>
+
+<h2>Session State Protection</h2>
+<div class="box box-red"><div class="box-label box-label-red">Critical</div>Without session state protection, a malicious user can modify URL parameters: <code>&P3_EMP_ID=999</code> to access other records. Enable "Restricted - May not be set from browser" on all Primary Key items in forms.</div>
+
+<h3>Checksum Types</h3>
+<ul>
+<li><strong>Unrestricted</strong>: Item can be set from URL (only for non-sensitive display items)</li>
+<li><strong>Restricted - May not be set from browser</strong>: Primary keys, sensitive IDs</li>
+<li><strong>Session Level</strong>: Checksum valid for entire session only</li>
+<li><strong>Page Level</strong>: Checksum valid for this page visit only (most secure)</li>
+</ul>
+
+<h2>SQL Injection Prevention</h2>
+<div class="box box-teal"><div class="box-label box-label-teal">APEX Automatic Protection</div>APEX automatically uses bind variables in all report queries, LOVs, and form processes when you use the <code>:ITEM_NAME</code> syntax. The APEX engine never concatenates user input into SQL strings unless you explicitly do so. Don't use <code>'SELECT * FROM emp WHERE id='||:P1_ID</code> — use proper bind: <code>WHERE id = :P1_ID</code>.</div>
+
+<h2>XSS Prevention</h2>
+<ul>
+<li>APEX escapes HTML in report columns by default (Escape Special Characters: Yes)</li>
+<li>Only set "Escape = No" when you INTENTIONALLY display HTML (e.g., rich text editor output)</li>
+<li>Never store raw HTML from user input without sanitization</li>
+<li>Use <code>APEX_ESCAPE.HTML()</code> when displaying user-entered text outside of standard regions</li>
+</ul>
+
+<h2>Security Checklist</h2>
+<div class="box box-amber"><div class="box-label box-label-amber">Before Production Deployment</div>
+<ol>
+<li>All PK items: Restricted session state protection</li>
+<li>Authorization schemes on all sensitive pages</li>
+<li>Escape HTML: Yes on all report columns showing user input</li>
+<li>Custom auth using password hashing (not plain text)</li>
+<li>HTTPS enforced (ORDS config)</li>
+<li>Debug mode disabled in production</li>
+<li>Application locked from export without password</li>
+</ol>
+</div>
+`
+},
+{
+title:"API Integration",
+num:"09",
+subtitle:"REST APIs, Web Sources, JSON, external services",
+content:`
+<h2>Three Ways to Integrate APIs in APEX</h2>
+<div class="grid3">
+<div class="box box-purple"><div class="box-label box-label-purple">REST Data Source</div>Declarative API integration — APEX UI wizard. Best for read-heavy data display in reports/cards.</div>
+<div class="box box-teal"><div class="box-label box-label-teal">APEX_WEB_SERVICE</div>PL/SQL package for calling APIs in processes. Best for write operations (POST/PUT/DELETE).</div>
+<div class="box box-blue"><div class="box-label box-label-blue">UTL_HTTP</div>Low-level Oracle HTTP package. Use when you need full control over headers, certs, proxies.</div>
+</div>
+
+<h2>REST Data Source (Declarative — Recommended)</h2>
+<ol>
+<li>Shared Components → REST Data Sources → Create</li>
+<li>Paste API URL: <code>https://api.example.com/employees</code></li>
+<li>Add authentication headers if needed (Bearer token, API key)</li>
+<li>APEX discovers the JSON structure — maps to columns automatically</li>
+<li>Create a report → Source: REST Data Source → pick your source</li>
+</ol>
+
+<h2>Calling APIs in PL/SQL Processes</h2>
+<pre>DECLARE
+  l_response  CLOB;
+  l_json      APEX_JSON.T_VALUES;
+  l_emp_name  VARCHAR2(200);
+BEGIN
+  -- Make the REST call
+  l_response := APEX_WEB_SERVICE.MAKE_REST_REQUEST(
+    p_url         => 'https://api.example.com/employees/101',
+    p_http_method => 'GET',
+    p_transfer_timeout => 30
+  );
+  
+  -- Parse JSON response
+  APEX_JSON.PARSE(l_json, l_response);
+  l_emp_name := APEX_JSON.GET_VARCHAR2(
+    p_values => l_json,
+    p_path   => 'data.name');
+  
+  :P5_API_RESULT := l_emp_name;
+EXCEPTION
+  WHEN OTHERS THEN
+    :P5_API_ERROR := 'API call failed: ' || SQLERRM;
+END;</pre>
+
+<h2>Calling APIs with Authentication</h2>
+<pre>-- Bearer Token Auth
+APEX_WEB_SERVICE.SET_REQUEST_HEADERS(
+  p_name_01  => 'Authorization',
+  p_value_01 => 'Bearer ' || v_token,
+  p_name_02  => 'Content-Type',
+  p_value_02 => 'application/json');
+
+-- POST with JSON body
+l_response := APEX_WEB_SERVICE.MAKE_REST_REQUEST(
+  p_url         => 'https://api.example.com/create',
+  p_http_method => 'POST',
+  p_body        => '{"name":"John","dept":5}');</pre>
+
+<h2>Exposing APEX as a REST API (ORDS)</h2>
+<pre>-- In SQL Workshop → RESTful Services → Create Module
+-- Module: employees | Base Path: /employees/
+-- Template: list | URI: /list/
+-- Handler: GET
+-- SQL:
+SELECT emp_id, first_name, last_name, dept_name
+FROM v_emp_details
+WHERE status = 'ACTIVE'</pre>
+<p>This instantly creates: <code>https://your-apex/ords/schema/employees/list/</code> — a public REST API returning JSON from your DB view.</p>
+
+<h2>Storing API Keys Securely</h2>
+<div class="box box-amber"><div class="box-label box-label-amber">Production Pattern</div>Never hardcode API keys in page processes. Store in: (1) APEX Application Settings (Shared Components → App Settings), or (2) DB credentials table with encryption. Access via <code>APEX_UTIL.GET_ATTRIBUTE()</code> or your credentials package.</div>
+
+<h2>Debugging API Calls</h2>
+<ul>
+<li>Enable APEX Debug → DA logs show AJAX response payloads</li>
+<li>Log <code>l_response CLOB</code> to a debug table before parsing</li>
+<li>Check <code>APEX_WEB_SERVICE.G_STATUS_CODE</code> — 200=OK, 401=Auth error, 404=Not found</li>
+<li>Use APEX's built-in Postman equivalent: REST Data Source → Test tab</li>
+</ul>
+`
+},
+{
+title:"Performance Optimization",
+num:"10",
+subtitle:"Why APEX apps get slow and how to fix them",
+content:`
+<h2>Why APEX Apps Get Slow</h2>
+<div class="arch">
+Top causes (by frequency):
+1. Reports with no WHERE clause → full table scans
+2. Nested queries / unindexed joins in report SQL
+3. Too many AJAX calls per page (too many DAs)
+4. Session state reading large CLOBs repeatedly
+5. No caching on LOVs used everywhere
+6. Too many items on a single page (>50 items = slow render)
+7. External API calls in page load processes (synchronous)
+</div>
+
+<h2>Query Optimization Essentials</h2>
+<pre>-- BAD: Full table scan, no filter
+SELECT * FROM employees;
+
+-- GOOD: Index on status + dept_id
+SELECT emp_id, first_name, last_name, salary
+FROM   employees
+WHERE  status = 'ACTIVE'          -- index on status
+AND    dept_id = :P3_DEPT_ID;     -- index on dept_id
+
+-- Add indexes after testing:
+CREATE INDEX idx_emp_status ON employees(status);
+CREATE INDEX idx_emp_dept   ON employees(dept_id);</pre>
+
+<h2>Report Pagination Best Practices</h2>
+<ul>
+<li>Always set "Maximum Rows" on Classic Reports (default: 15-25)</li>
+<li>For IR/IG: set "Default Rows Per Page" to 15 — users can change it</li>
+<li>For very large tables (1M+ rows): use "Row Limiting" + indexed WHERE clauses</li>
+<li>Never <code>SELECT *</code> in report queries — list only columns you display</li>
+</ul>
+
+<h2>LOV Caching</h2>
+<pre>-- LOV source: Department list (rarely changes)
+-- Set "Caching: Cached within Session" on the LOV
+-- This runs the SQL once per session, not on every page load
+SELECT dept_name d, dept_id r 
+FROM departments 
+ORDER BY dept_name</pre>
+
+<h2>Session State Optimization</h2>
+<ul>
+<li>Don't store large text/CLOB in session state items — creates memory pressure</li>
+<li>Clear session state items when no longer needed: <code>APEX_UTIL.SET_SESSION_STATE('P4_TEMP', NULL)</code></li>
+<li>Use Page 0 (Global Page) items only for truly app-wide values</li>
+<li>Avoid storing binary/image data in session state</li>
+</ul>
+
+<h2>Page-Level Caching</h2>
+<div class="box box-teal"><div class="box-label box-label-teal">When to cache a page</div>Static or near-static pages — like "About Us", help docs, reference lookup pages. Page Caching: set cache lifetime = 60 minutes. APEX stores rendered HTML, skips DB call entirely for cached duration.</div>
+
+<h2>Debugging Slow Pages</h2>
+<ol>
+<li>Enable Debug: add <code>?p_debug=YES</code> to URL or click Debug button in developer toolbar</li>
+<li>View Debug: App Builder → Utilities → Debug Messages</li>
+<li>Find: slow SQL statements (look for "SQL query elapsed" > 1 second)</li>
+<li>Find: processes running on every page load unnecessarily</li>
+<li>Use EXPLAIN PLAN in SQL Workshop on slow queries</li>
+</ol>
+
+<h2>Performance Mindset Checklist</h2>
+<div class="box box-green"><div class="box-label box-label-green">Before Go-Live</div>
+<ul>
+<li>All report queries have WHERE clauses with indexed columns</li>
+<li>All LOVs have caching enabled where data is static</li>
+<li>No SELECT * in any report</li>
+<li>Maximum rows per page ≤ 25</li>
+<li>Page 0 items minimized</li>
+<li>API calls moved to background jobs (DBMS_SCHEDULER) where possible</li>
+<li>EXPLAIN PLAN run on top 5 heaviest queries</li>
+</ul>
+</div>
+`
+},
+{
+title:"Debugging & Troubleshooting",
+num:"11",
+subtitle:"Finding and fixing problems like a senior developer",
+content:`
+<h2>The Debugging Toolkit</h2>
+<div class="grid2">
+<div class="box box-purple"><div class="box-label box-label-purple">APEX Debug Mode</div>Adds <code>?p_debug=YES</code> to URL. Shows every process, query, session state value, and elapsed time. Most important debugging tool in APEX.</div>
+<div class="box box-blue"><div class="box-label box-label-blue">Browser Console</div>F12 → Console. APEX logs JS errors, failed AJAX calls, DA execution. Network tab shows APEX POST requests with payloads.</div>
+<div class="box box-teal"><div class="box-label box-label-teal">Error Messages</div>APEX error pages show ORA- error codes. Learn the most common: ORA-20001 (app error), ORA-01400 (NOT NULL), ORA-00001 (unique constraint), ORA-02291 (FK violation).</div>
+<div class="box box-amber"><div class="box-label box-label-amber">SQL Workshop</div>Test your report/LOV SQL directly in SQL Commands before putting it in APEX. 80% of APEX errors are SQL errors — test first.</div>
+</div>
+
+<h2>Systematic Debug Framework</h2>
+<div class="arch">
+User reports error
+    ↓
+Step 1: Reproduce the exact scenario
+    ↓
+Step 2: Enable Debug mode (p_debug=YES)
+    ↓
+Step 3: Re-run → look for red/orange debug rows
+    ↓
+Step 4: Identify: SQL error? Process error? DA error? 
+    ↓
+Step 5: Test the failing SQL/PL/SQL in SQL Workshop
+    ↓
+Step 6: Fix in APEX, test, verify debug shows clean
+</div>
+
+<h2>Reading APEX Debug Output</h2>
+<table>
+<tr><th>Debug line type</th><th>What to look for</th></tr>
+<tr><td>show: processes</td><td>Each process listed — find which one failed</td></tr>
+<tr><td>SQL query elapsed: Xs</td><td>X > 1 second = slow query, needs optimization</td></tr>
+<tr><td>Error during execution</td><td>Red line = exception thrown — look at ORA- code</td></tr>
+<tr><td>Session State:</td><td>Shows current value of items — check if expected value is there</td></tr>
+<tr><td>Branch taken:</td><td>Verify correct branch was followed after submit</td></tr>
+</table>
+
+<h2>Common Errors and Fixes</h2>
+<table>
+<tr><th>Error</th><th>Cause</th><th>Fix</th></tr>
+<tr><td>No data found</td><td>SELECT INTO returned 0 rows</td><td>Use COUNT first or add exception handler</td></tr>
+<tr><td>Too many rows</td><td>SELECT INTO returned 2+ rows</td><td>Add ROWNUM=1 or use cursor</td></tr>
+<tr><td>ORA-01400 NULL</td><td>NOT NULL column has null value</td><td>Add required validation on form item</td></tr>
+<tr><td>ORA-00001 Unique</td><td>Duplicate value in unique column</td><td>Add email/name uniqueness validation</td></tr>
+<tr><td>Page expired</td><td>Session timeout or double submit</td><td>Set page caching, check session timeout setting</td></tr>
+<tr><td>DA not firing</td><td>Event on wrong element, or condition wrong</td><td>Check event type and affected element names</td></tr>
+</table>
+
+<h2>Logging Pattern for Production</h2>
+<pre>-- Create a log table once:
+CREATE TABLE app_error_log (
+  log_id   NUMBER GENERATED ALWAYS AS IDENTITY,
+  app_id   NUMBER, page_id NUMBER,
+  username VARCHAR2(100), error_msg VARCHAR2(4000),
+  stack    VARCHAR2(4000), log_dt   TIMESTAMP
+);
+
+-- Use in every WHEN OTHERS:
+EXCEPTION
+  WHEN OTHERS THEN
+    INSERT INTO app_error_log 
+    VALUES(NULL,:APP_ID,:APP_PAGE_ID,:APP_USER,
+           SQLERRM,DBMS_UTILITY.FORMAT_ERROR_BACKTRACE,SYSTIMESTAMP);
+    COMMIT;
+    RAISE; -- Always re-raise so APEX shows the error</pre>
+
+<div class="box box-red"><div class="box-label box-label-red">Production Mindset</div>Never swallow exceptions silently (empty EXCEPTION block). Always log, always re-raise (unless you're intentionally handling a recoverable case). Silent failures are the hardest bugs to find.</div>
+`
+},
+{
+title:"Deployment & Workflow",
+num:"12",
+subtitle:"DEV → TEST → PROD enterprise lifecycle",
+content:`
+<h2>Enterprise Deployment Pipeline</h2>
+<div class="arch">
+Developer Machine (DEV workspace)
+    ↓  [Export .sql file]
+Version Control (Git)
+    ↓  [Pull, review, approve]
+TEST Environment (QA workspace)
+    ↓  [Import, test, sign-off]
+PRODUCTION Environment (PROD workspace)
+    ↓  [Import with verified file]
+Live Application
+</div>
+
+<h2>Exporting an Application</h2>
+<ol>
+<li>App Builder → your app → Export/Import → Export</li>
+<li>Export As: Application | Include Supporting Objects: Yes</li>
+<li>Export: downloads <code>fXXX.sql</code> file (entire app definition in SQL)</li>
+<li>This file creates all pages, regions, DAs, processes when run in another workspace</li>
+</ol>
+
+<h2>What the Export File Contains</h2>
+<p>The export is a PL/SQL script that calls <code>wwv_flow_api</code> procedures to recreate your entire application. It's just SQL — it can be diffed in Git, reviewed in PRs, and run in any Oracle DB with APEX installed.</p>
+
+<div class="box box-amber"><div class="box-label box-label-amber">Important</div>The export contains your APP but NOT your database tables/data. Deploy DB changes separately using: a DDL script + DML seed script. Always maintain a <code>db_changes.sql</code> file alongside your APEX export.</div>
+
+<h2>Supporting Objects</h2>
+<p>APEX Supporting Objects let you package DB scripts inside the app export. On import, APEX runs them automatically. Use for: table creation scripts, seed data, grants, synonyms.</p>
+<ol>
+<li>Shared Components → Supporting Objects → Installation Scripts</li>
+<li>Add your <code>CREATE TABLE</code> and <code>INSERT</code> scripts here</li>
+<li>These run automatically when app is installed in a new workspace</li>
+</ol>
+
+<h2>Version Control Best Practices</h2>
+<div class="box box-purple"><div class="box-label box-label-purple">Git Strategy for APEX Teams</div>
+<ul>
+<li>One Git repo per application</li>
+<li>Branch per feature: <code>feature/employee-form-validation</code></li>
+<li>Export after every meaningful change → commit to branch</li>
+<li>PR review includes reviewing APEX export diff</li>
+<li>Main branch = what's in PROD</li>
+<li>Tag releases: <code>v1.0.0</code>, <code>v1.1.0</code></li>
+</ul>
+</div>
+
+<h2>DEV → TEST → PROD Checklist</h2>
+<table>
+<tr><th>Step</th><th>Action</th></tr>
+<tr><td>1</td><td>Export app from DEV workspace</td></tr>
+<tr><td>2</td><td>Commit to Git with meaningful commit message</td></tr>
+<tr><td>3</td><td>Apply DB changes script to TEST schema</td></tr>
+<tr><td>4</td><td>Import APEX export to TEST workspace</td></tr>
+<tr><td>5</td><td>Run QA tests, get sign-off</td></tr>
+<tr><td>6</td><td>Apply DB changes to PROD schema</td></tr>
+<tr><td>7</td><td>Import same APEX export to PROD workspace</td></tr>
+<tr><td>8</td><td>Smoke test PROD</td></tr>
+</table>
+
+<h2>Team Development Feature</h2>
+<p>APEX has a built-in project management tool under Team Development: Bugs, To Dos, Features, Feedback, Milestones. Use it to track what's being built and what's broken — especially useful when your clients use the app and submit feedback directly through the app's feedback form.</p>
+`
+},
+{
+title:"Advanced Concepts",
+num:"13",
+subtitle:"Collections, plugins, JS/CSS, background jobs",
+content:`
+<h2>APEX Collections — Temporary Data Storage</h2>
+<div class="box box-purple"><div class="box-label box-label-purple">What it is</div>A session-level temporary table. Use when you need to accumulate rows before a final save (shopping cart pattern, multi-step wizard, batch operations).</div>
+<pre>-- Create and populate collection
+APEX_COLLECTION.CREATE_OR_TRUNCATE_COLLECTION('CART_ITEMS');
+APEX_COLLECTION.ADD_MEMBER(
+  p_collection_name => 'CART_ITEMS',
+  p_c001 => :P5_PRODUCT_ID,
+  p_c002 => :P5_PRODUCT_NAME,
+  p_n001 => :P5_QUANTITY,
+  p_n002 => :P5_UNIT_PRICE);
+
+-- Report on collection
+SELECT c001 AS product_id, c002 AS product_name,
+       n001 AS qty, n002 AS price,
+       n001 * n002 AS total
+FROM   apex_collections
+WHERE  collection_name = 'CART_ITEMS'
+AND    session_id      = :APP_SESSION;</pre>
+
+<h2>Background Jobs with DBMS_SCHEDULER</h2>
+<pre>-- Schedule a nightly report generation job
+BEGIN
+  DBMS_SCHEDULER.CREATE_JOB(
+    job_name        => 'NIGHTLY_REPORT',
+    job_type        => 'PLSQL_BLOCK',
+    job_action      => 'BEGIN pkg_reports.generate_daily_summary; END;',
+    start_date      => TRUNC(SYSDATE+1) + INTERVAL '2' HOUR, -- 2 AM tomorrow
+    repeat_interval => 'FREQ=DAILY;BYHOUR=2;BYMINUTE=0',
+    enabled         => TRUE);
+END;</pre>
+
+<h2>Plugins</h2>
+<p>APEX Plugins extend the platform with reusable custom components. Types: Item Plugin (custom input), Region Plugin (custom display), Dynamic Action Plugin (custom action), Process Plugin.</p>
+<ul>
+<li>Download from <code>apex.world</code> — large community plugin library</li>
+<li>Popular plugins: TigerGrid (advanced grid), D3.js charts, FullCalendar, Signature pad, File Preview</li>
+<li>Install: Shared Components → Plugins → Import</li>
+</ul>
+
+<h2>JavaScript Integration</h2>
+<pre>// Inline JavaScript in a DA "Execute JavaScript" action
+// Reference APEX items: apex.item("P4_EMP_ID").getValue()
+// Set APEX item: apex.item("P4_SALARY").setValue("75000")
+// Refresh a region: apex.region("employee_report").refresh()
+
+// Custom button behavior example:
+apex.item("P4_STATUS").setValue("APPROVED");
+apex.region("emp_details").refresh();
+apex.message.showPageSuccess("Record approved successfully!");</pre>
+
+<h2>CSS Customization</h2>
+<pre>/* Add in Shared Components → Theme Styles → Custom CSS
+   OR Page Inline CSS (Appearance → CSS → Inline) */
+
+/* Style a specific region */
+#employee-report .a-IRR-table {
+  font-size: 13px;
+}
+
+/* Custom button style */
+.btn-approve {
+  background-color: #1D9E75 !important;
+  color: white !important;
+}
+
+/* Hide a column header */
+th[data-column-id="EMP_ID"] {
+  display: none;
+}</pre>
+
+<h2>REST Enabled SQL</h2>
+<p>Exposes your APEX workspace's parsing schema via REST so external applications can run SQL queries against it (with authentication). Useful for connecting external tools like Power BI, Tableau, or mobile apps to your APEX data.</p>
+
+<h2>Advanced LOV Patterns</h2>
+<pre>-- Dynamic LOV that changes based on user role
+SELECT d.dept_name AS display_value,
+       d.dept_id   AS return_value
+FROM   departments d
+WHERE  (   :APP_USER IN (SELECT username FROM admin_users)
+        OR d.region = (SELECT region FROM user_profile WHERE username=:APP_USER))
+ORDER  BY d.dept_name</pre>
+`
+},
+{
+title:"Interview Preparation",
+num:"14",
+subtitle:"Questions, traps, and how to answer professionally",
+content:`
+<h2>Beginner Level Questions</h2>
+<table>
+<tr><th>Question</th><th>Key points in answer</th></tr>
+<tr><td>What is Oracle APEX?</td><td>Low-code platform inside Oracle DB, uses PL/SQL, ORDS for HTTP layer, generates web apps</td></tr>
+<tr><td>What is session state?</td><td>In-memory key-value store per session, persisted in Oracle DB between page calls, cleared on logout</td></tr>
+<tr><td>What is a Dynamic Action?</td><td>Event-driven UI behavior — when/condition/then structure, fires client-side or server-side AJAX</td></tr>
+<tr><td>IR vs Classic Report?</td><td>IR = user-customizable, AJAX-driven, saved views. Classic = fixed HTML table, for print/PDF.</td></tr>
+<tr><td>What is a Parsing Schema?</td><td>The Oracle DB user whose privileges APEX uses to run SQL — must have SELECT/INSERT/UPDATE on app tables</td></tr>
+</table>
+
+<h2>Intermediate Level Questions</h2>
+<table>
+<tr><th>Question</th><th>Expert answer signal</th></tr>
+<tr><td>How does APEX handle SQL injection?</td><td>Bind variables (:P1_ITEM) — APEX never concatenates user input. Also mention APEX_ESCAPE.HTML for output.</td></tr>
+<tr><td>Explain authentication vs authorization in APEX</td><td>Auth = who you are (login scheme). Authz = what you can do (scheme applied to page/component). Different setup locations.</td></tr>
+<tr><td>What is Session State Protection?</td><td>Prevents URL parameter tampering. Checksums on PK items. Set "Restricted" on all sensitive items.</td></tr>
+<tr><td>How do you optimize a slow report?</td><td>Add WHERE with indexed columns, avoid SELECT *, check EXPLAIN PLAN, enable LOV caching, use pagination.</td></tr>
+<tr><td>What are APEX Collections?</td><td>Session-level temp tables (wwv_flow_collections). Use for multi-row staging before final commit — cart pattern.</td></tr>
+</table>
+
+<h2>Scenario-Based Questions</h2>
+<div class="box box-purple"><div class="box-label box-label-purple">Q: A page loads slowly in production. Walk me through your approach.</div>
+A: Enable debug mode → check query elapsed times → run EXPLAIN PLAN on slow queries → check for full table scans → add indexes → check for unnecessary page load processes → check LOV caching → review session state size. Mention: never optimize blindly, measure first.</div>
+
+<div class="box box-teal"><div class="box-label box-label-teal">Q: How would you build a role-based access system in APEX?</div>
+A: Create USER_ROLES table → create Authorization Schemes per role (PL/SQL returning boolean) → apply schemes to pages, regions, buttons, menu items. For row-level security, add WHERE username = :APP_USER or role check in report SQL.</div>
+
+<div class="box box-blue"><div class="box-label box-label-blue">Q: How do you deploy an APEX app from DEV to PROD?</div>
+A: Export app as .sql from DEV → commit to Git → apply DB DDL changes to PROD schema → import APEX export to PROD workspace → smoke test. Mention: Supporting Objects for DB scripts, importance of not applying DB changes after app import.</div>
+
+<h2>Common Interview Traps</h2>
+<div class="box box-red"><div class="box-label box-label-red">Traps to avoid</div>
+<ul>
+<li>"APEX stores data in its own database" → WRONG. APEX uses your parsing schema. APEX metadata is in APEX_XXXXX tables.</li>
+<li>"Session state is permanent" → WRONG. It's in-memory, session-scoped.</li>
+<li>"Dynamic Actions only run JavaScript" → WRONG. They can execute PL/SQL server-side via AJAX.</li>
+<li>"You can't call REST APIs from APEX" → WRONG. APEX_WEB_SERVICE and REST Data Sources handle this natively.</li>
+</ul>
+</div>
+
+<h2>Your Competitive Edge</h2>
+<div class="box box-green"><div class="box-label box-label-green">Signal seniority by mentioning:</div>
+<ul>
+<li>Packaging business logic in PL/SQL packages, not inline in APEX processes</li>
+<li>Using views as report sources instead of direct table queries</li>
+<li>Git-based version control of APEX exports</li>
+<li>Error logging pattern with app_error_log table</li>
+<li>APEX_ERROR.ADD_ERROR for user-friendly inline errors</li>
+</ul>
+</div>
+`
+},
+{
+title:"Tips & Tricks",
+num:"15",
+subtitle:"What senior developers actually do — hidden productivity",
+content:`
+<h2>Things Senior Developers Always Do</h2>
+<div class="box box-purple"><div class="box-label box-label-purple">Development Habits</div>
+<ul>
+<li>Build all reports on VIEWS — never raw table JOINs in APEX SQL boxes</li>
+<li>All business logic in PL/SQL packages — APEX processes are thin wrappers</li>
+<li>Never hardcode values in SQL — always use parameters/bind variables</li>
+<li>Test every SQL query in SQL Workshop before adding to APEX</li>
+<li>Add debug logging to every process during development, remove before go-live</li>
+<li>Export app to Git after every meaningful change — not weekly, every change</li>
+<li>Always use named items (P3_EMP_ID not just a number)</li>
+<li>Page 9999 (Global Page) for nav menu, logout button, session check logic</li>
+</ul>
+</div>
+
+<h2>Things Beginners Should Never Do</h2>
+<div class="box box-red"><div class="box-label box-label-red">Common Beginner Mistakes</div>
+<ul>
+<li>Building on SYS or SYSTEM schema — never, ever</li>
+<li>SELECT * in reports — breaks when columns change</li>
+<li>Storing passwords in plain text in any table</li>
+<li>Ignoring Session State Protection on PK items</li>
+<li>Empty EXCEPTION blocks (silent failures)</li>
+<li>Building entire application on Page 1 — use page numbers logically</li>
+<li>Not committing before testing changes — no undo in APEX</li>
+<li>Putting heavy API calls in page load processes (blocks render)</li>
+</ul>
+</div>
+
+<h2>Keyboard Shortcuts in APEX Builder</h2>
+<table>
+<tr><th>Shortcut</th><th>Action</th></tr>
+<tr><td>Ctrl+S</td><td>Save page (most important — use constantly)</td></tr>
+<tr><td>Ctrl+Shift+F</td><td>Find in APEX (search across all pages/regions)</td></tr>
+<tr><td>F6</td><td>Run page</td></tr>
+<tr><td>Ctrl+Enter</td><td>Run SQL in SQL Workshop</td></tr>
+<tr><td>Alt+F4 equivalent</td><td>Close APEX dialog without saving (Escape)</td></tr>
+</table>
+
+<h2>Hidden Productivity Tricks</h2>
+<div class="box box-teal"><div class="box-label box-label-teal">APEX Builder URL Hacks</div>
+<ul>
+<li>Add <code>&p_debug=YES</code> to any running app URL to enable debug instantly</li>
+<li>Add <code>&cs=</code> to disable APEX session check temporarily (dev only)</li>
+<li>In App Builder URL: change page number to jump directly to any page</li>
+<li>Use "Lock" on pages you're actively editing to prevent team conflicts</li>
+</ul>
+</div>
+
+<div class="box box-blue"><div class="box-label box-label-blue">Quick-Build Techniques</div>
+<ul>
+<li>Create Form + Report together: Create Page → Form → includes both report and form automatically</li>
+<li>Copy a page: right-click page thumbnail → Copy → fastest way to duplicate similar pages</li>
+<li>Copy a region across pages: edit region → Copy to Other Page → great for dashboard widgets</li>
+<li>Quick Edit (double-click any page element in running app to jump to edit screen)</li>
+<li>Use "Edit All" button in reports to bulk-edit column properties</li>
+</ul>
+</div>
+
+<h2>UI/UX Quick Wins</h2>
+<ul>
+<li>Use Universal Theme template options for visual styling — no CSS needed for 90% of cases</li>
+<li>Card regions with icons look much more professional than plain reports — switch for dashboard KPIs</li>
+<li>Use "Drawer" page mode for edit forms (slides in from right like a modal) — modern UX feel</li>
+<li>Add "Sticky" property to Interactive Report toolbar so it stays visible when scrolling</li>
+<li>Use Navigation Bar entries for global icons (user profile, notifications, settings)</li>
+</ul>
+
+<h2>The "Did You Know" List</h2>
+<div class="box box-amber"><div class="box-label box-label-amber">Uncommon but powerful features</div>
+<ul>
+<li>APEX has a built-in email sending API: <code>APEX_MAIL.SEND()</code> — no SMTP config in your code</li>
+<li>IR columns can have conditional formatting (highlight red if salary < 30000) with zero JS</li>
+<li>You can embed any APEX page as an iframe widget in external sites</li>
+<li>APEX has Progressive Web App (PWA) support built-in — installable as mobile app in one click</li>
+<li>Team Development allows end users to submit app feedback right inside the running app</li>
+</ul>
+</div>
+`
+},
+{
+title:"Real Project: HR System",
+num:"16",
+subtitle:"Full enterprise HR Management System walkthrough",
+content:`
+<h2>Project: Enterprise HR Management System</h2>
+<div class="box box-purple"><div class="box-label box-label-purple">Scope</div>Employee records, departments, job roles, payroll reports, leave management, org chart, manager self-service, role-based access (Admin, HR Manager, Employee, Manager).</div>
+
+<h2>Phase 1: Database Design</h2>
+<pre>-- Core tables
+CREATE TABLE departments (dept_id NUMBER IDENTITY PK, dept_name VARCHAR2(100), location VARCHAR2(100));
+CREATE TABLE jobs        (job_id  NUMBER IDENTITY PK, job_title VARCHAR2(100), min_salary NUMBER, max_salary NUMBER);
+CREATE TABLE employees   (emp_id NUMBER IDENTITY PK, first_name VARCHAR2(100), last_name VARCHAR2(100),
+                          email VARCHAR2(200) UNIQUE, phone VARCHAR2(20), hire_date DATE DEFAULT SYSDATE,
+                          job_id NUMBER FK→jobs, dept_id NUMBER FK→departments, 
+                          manager_id NUMBER FK→employees(emp_id), -- self-referential!
+                          salary NUMBER(10,2), status VARCHAR2(10) DEFAULT 'ACTIVE');
+CREATE TABLE leave_requests(req_id NUMBER IDENTITY PK, emp_id NUMBER FK→employees,
+                             leave_type VARCHAR2(30), start_date DATE, end_date DATE,
+                             reason VARCHAR2(500), status VARCHAR2(20) DEFAULT 'PENDING',
+                             approved_by NUMBER FK→employees, submitted_dt TIMESTAMP DEFAULT SYSTIMESTAMP);
+CREATE TABLE payroll_history(payroll_id NUMBER IDENTITY PK, emp_id NUMBER FK→employees,
+                              pay_period DATE, gross_salary NUMBER, deductions NUMBER, net_salary NUMBER);
+-- Support tables
+CREATE TABLE app_users (username VARCHAR2(100) PK, emp_id NUMBER FK→employees, password_hash VARCHAR2(200));
+CREATE TABLE user_roles(username VARCHAR2(100), role_code VARCHAR2(50), 
+                        PRIMARY KEY(username,role_code));</pre>
+
+<h2>Phase 2: Page Structure</h2>
+<div class="arch">
+Page 1    Login (custom PL/SQL auth)
+Page 2    Dashboard (KPIs + charts)
+Page 100  Employees List (IR)
+Page 101  Employee Form (add/edit)
+Page 102  Employee Profile View (read-only, for employee self-service)
+Page 200  Departments (IR + inline edit)
+Page 201  Department Form
+Page 300  Leave Requests - All (manager/HR view, IR)
+Page 301  Leave Request Form (submit/approve)
+Page 302  My Leave Requests (employee view)
+Page 400  Payroll Report (IR + export)
+Page 500  Reports - Headcount, Attrition, Salary bands
+Page 9999 Global Page (nav + session check)
+</div>
+
+<h2>Phase 3: Key Features Implementation</h2>
+<h3>Manager Approval Workflow (Leave Requests)</h3>
+<pre>-- Button: "Approve" (Authorization: HR Manager or Direct Manager)
+-- Process on Approve button:
+BEGIN
+  UPDATE leave_requests
+  SET status = 'APPROVED', approved_by = 
+    (SELECT emp_id FROM app_users WHERE username=:APP_USER)
+  WHERE req_id = :P301_REQ_ID;
+  
+  -- Notify employee by email
+  APEX_MAIL.SEND(
+    p_to      => (SELECT email FROM employees e JOIN leave_requests l 
+                  ON e.emp_id=l.emp_id WHERE l.req_id=:P301_REQ_ID),
+    p_from    => 'hr@company.com',
+    p_subj    => 'Your leave request has been approved',
+    p_body    => 'Your leave from '||:P301_START_DATE||' to '||:P301_END_DATE||' is approved.');
+  COMMIT;
+END;</pre>
+
+<h3>Role-Based Navigation</h3>
+<pre>-- Nav menu item "All Employees" → Authorization: "Is HR or Admin"
+-- Nav menu item "My Profile" → shown to ALL
+-- Nav menu item "Approve Leaves" → Authorization: "Is Manager"
+-- Nav menu item "Payroll" → Authorization: "Is HR"
+
+-- Authorization scheme "Is HR":
+SELECT COUNT(*) INTO v_cnt FROM user_roles 
+WHERE username=:APP_USER AND role_code IN ('HR','ADMIN');
+RETURN v_cnt > 0;</pre>
+
+<h3>Dashboard KPIs SQL</h3>
+<pre>-- Total headcount
+SELECT COUNT(*) FROM employees WHERE status='ACTIVE';
+-- Open positions (jobs with no current emp)
+SELECT COUNT(*) FROM jobs WHERE job_id NOT IN (SELECT DISTINCT job_id FROM employees WHERE status='ACTIVE');
+-- Pending leaves
+SELECT COUNT(*) FROM leave_requests WHERE status='PENDING';
+-- Average salary by dept (for bar chart)
+SELECT d.dept_name AS label, ROUND(AVG(e.salary),0) AS value
+FROM employees e JOIN departments d ON e.dept_id=d.dept_id
+WHERE e.status='ACTIVE' GROUP BY d.dept_name ORDER BY 2 DESC;</pre>
+
+<h2>Phase 4: Security Implementation</h2>
+<ul>
+<li>Authentication: Custom PL/SQL using SHA-256 hashed passwords</li>
+<li>Employee self-service: Row-level WHERE emp_id = (SELECT emp_id FROM app_users WHERE username=:APP_USER)</li>
+<li>HR-only pages: Authorization scheme on page level</li>
+<li>All PK items: Session State Protection = Restricted</li>
+<li>Password change form: validates old password before update</li>
+</ul>
+
+<h2>Deployment Checklist</h2>
+<div class="box box-green"><div class="box-label box-label-green">Go-Live Checklist</div>
+<ol>
+<li>All DB objects created in PROD schema</li>
+<li>Seed data: departments, jobs, admin user</li>
+<li>APEX app imported from verified QA-tested export</li>
+<li>Authentication scheme tested with real users</li>
+<li>All report pages load in under 3 seconds</li>
+<li>Email functionality tested (APEX_MAIL)</li>
+<li>Debug mode OFF in PROD</li>
+<li>App export password set</li>
+<li>Backup of PROD schema created</li>
+</ol>
+</div>
+`
+},
+{
+title:"1-Day Learning Plan",
+num:"17",
+subtitle:"Hour-by-hour schedule, cheat sheets, revision guide",
+content:`
+<h2>Hour-by-Hour Schedule (8 AM → 8 PM)</h2>
+<table>
+<tr><th>Time</th><th>Topic</th><th>Deliverable</th></tr>
+<tr><td>8–9 AM</td><td>Fundamentals (Section 1) — Read only, no hands-on</td><td>Understand APEX architecture cold</td></tr>
+<tr><td>9–10 AM</td><td>Setup: Get apex.oracle.com workspace, create tables from Section 3</td><td>Live DB with employees + departments tables</td></tr>
+<tr><td>10–11 AM</td><td>Build first app: Sections 3-4 — Create CRUD app end-to-end</td><td>Working IR + Form app</td></tr>
+<tr><td>11 AM–12 PM</td><td>Page Types (Section 5) — Add chart, cards, faceted search to app</td><td>Dashboard page live</td></tr>
+<tr><td>12–1 PM</td><td>Break / review Section 7 notes on PL/SQL</td><td>PL/SQL patterns reviewed</td></tr>
+<tr><td>1–2 PM</td><td>Dynamic Actions (Section 6) — Add cascading LOV, show/hide, refresh</td><td>Interactive form with DAs working</td></tr>
+<tr><td>2–3 PM</td><td>Security (Section 8) — Add auth scheme, authorization, SSP</td><td>Role-based app with custom login</td></tr>
+<tr><td>3–4 PM</td><td>Debugging + Performance (Sections 10-11) — Test debug mode, add indexes</td><td>Debug-ready, optimized queries</td></tr>
+<tr><td>4–5 PM</td><td>Section 14 — Interview Q&A revision</td><td>Can answer 20 interview questions</td></tr>
+<tr><td>5–6 PM</td><td>Section 16 — Plan HR system schema, start implementation</td><td>HR system partially built</td></tr>
+<tr><td>6–7 PM</td><td>API + Advanced (Sections 9, 13) — Add REST call, collections demo</td><td>API integration working</td></tr>
+<tr><td>7–8 PM</td><td>Revision: Tips, deployment checklist, cheat sheet review</td><td>Job-ready mental model complete</td></tr>
+</table>
+
+<h2>What to Skip on Day 1</h2>
+<ul>
+<li>Deep ORDS configuration (learn after you have a working app)</li>
+<li>Plug-in development (use community plugins, don't build yet)</li>
+<li>REST Enabled SQL (advanced, not interview-critical)</li>
+<li>PWA configuration (nice-to-have, not core)</li>
+<li>Universal Theme customization deep dive (use defaults first)</li>
+</ul>
+
+<h2>Critical Cheat Sheet</h2>
+<div class="arch">
+APEX Page Item Naming:  P[page#]_[COLUMN_NAME]   e.g. P4_EMP_ID
+Bind Variable in SQL:   :P4_EMP_ID  (colon + item name)
+Built-in Variables:     :APP_USER :APP_ID :SESSION :APP_PAGE_ID
+Session State Set:      APEX_UTIL.SET_SESSION_STATE('P4_X', 'value')
+Session State Get:      V('P4_X')  or  :P4_X  in PL/SQL
+Error in Process:       RAISE_APPLICATION_ERROR(-20001, 'message')
+Inline Error:           APEX_ERROR.ADD_ERROR(p_message=>'...',p_display_location=>...)
+Send Email:             APEX_MAIL.SEND(p_to,p_from,p_subj,p_body)
+Debug URL:              yourapp_url&p_debug=YES
+Debug Log:              App Builder → Utilities → Debug Messages
+Collection Create:      APEX_COLLECTION.CREATE_OR_TRUNCATE_COLLECTION('NAME')
+Collection Add:         APEX_COLLECTION.ADD_MEMBER('NAME', p_c001=>'val')
+Collection Query:       SELECT * FROM apex_collections WHERE collection_name='NAME'
+</div>
+
+<h2>Must-Know Interview Topics</h2>
+<div class="grid2">
+<div class="box"><span class="tag tag-purple">Core</span><ul><li>APEX architecture (ORDS flow)</li><li>Session state lifecycle</li><li>IR vs IG vs Classic</li><li>Page processing order</li></ul></div>
+<div class="box"><span class="tag tag-teal">Security</span><ul><li>Auth vs authz schemes</li><li>SSP and why it matters</li><li>Bind variables</li><li>APEX_ESCAPE.HTML</li></ul></div>
+<div class="box"><span class="tag tag-blue">Features</span><ul><li>Dynamic Actions events/actions</li><li>Cascading LOV</li><li>APEX Collections</li><li>REST Data Sources</li></ul></div>
+<div class="box"><span class="tag tag-amber">Enterprise</span><ul><li>DEV→TEST→PROD pipeline</li><li>Supporting Objects</li><li>PL/SQL packages in APEX</li><li>Views as report sources</li></ul></div>
+</div>
+
+<h2>Project Progression Roadmap</h2>
+<table>
+<tr><th>Level</th><th>Build this</th><th>Skills developed</th></tr>
+<tr><td>Beginner</td><td>Employee CRUD + reports</td><td>Tables, IR, forms, DAs basics</td></tr>
+<tr><td>Intermediate</td><td>HR system with roles + leave workflow</td><td>Auth/authz, PL/SQL packages, email</td></tr>
+<tr><td>Advanced</td><td>Inventory system with REST API + dashboard</td><td>API integration, collections, scheduler</td></tr>
+<tr><td>Expert</td><td>Full ERP module (Finance/Procurement)</td><td>Plugins, performance tuning, CI/CD</td></tr>
+</table>
+
+<button class="ask-btn" onclick="sendPrompt('Deep-dive on Dynamic Actions in Oracle APEX with more examples')">Deep-dive: Dynamic Actions ↗</button>
+<button class="ask-btn" onclick="sendPrompt('Give me a full PL/SQL package for employee management to use in APEX')">Generate PL/SQL Package ↗</button>
+<button class="ask-btn" onclick="sendPrompt('Quiz me on Oracle APEX interview questions')">Quiz me on APEX interviews ↗</button>
+`
+}
+];
+
+function show(idx){
+const s=sections[idx];
+const c=document.getElementById('content');
+c.innerHTML=`<div class="section-header"><div class="section-num">${s.num}</div><div><h1>${s.title}</h1><div class="subtitle">${s.subtitle}</div></div></div>${s.content}`;
+document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+c.scrollTop=0;
+}
+
+show(0);
+</script>
